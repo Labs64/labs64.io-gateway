@@ -1,6 +1,6 @@
 package io.labs64.apigateway.controller;
 
-import io.labs64.audit.api.EventPublisherApi;
+import io.labs64.audit.api.AuditEventPublisherApi;
 import io.labs64.audit.model.AuditEvent;
 import io.labs64.apigateway.service.MessagePublisherService;
 import org.springframework.http.HttpStatus;
@@ -8,11 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class EventPublisherController implements EventPublisherApi {
+public class AuditEventPublisherController implements AuditEventPublisherApi {
 
     private final MessagePublisherService messagePublisherService;
 
-    public EventPublisherController(MessagePublisherService messagePublisherService) {
+    public AuditEventPublisherController(MessagePublisherService messagePublisherService) {
         this.messagePublisherService = messagePublisherService;
     }
 

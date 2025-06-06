@@ -4,7 +4,7 @@ info:
   version: 0.0.1
   description: API for publishing audit events to a message broker.
 paths:
-  /event/publish:
+  /audit/publish:
     post:
       summary: Publish an audit event
       operationId: publishEvent
@@ -28,7 +28,7 @@ paths:
               schema:
                 type: string
       tags:
-        - EventPublisher
+        - AuditEventPublisher
 components:
   schemas:
     AuditEvent:
