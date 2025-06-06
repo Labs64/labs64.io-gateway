@@ -15,3 +15,6 @@ docker tag api-gateway:latest localhost:5005/api-gateway:latest
 docker push localhost:5005/api-gateway:latest
 
 docker images --format "{{.Repository}}:{{.Tag}} {{.ID}}" | grep "api-gateway"
+
+# Start application
+#mvn spring-boot:run -Dspring-boot.run.profiles=local
