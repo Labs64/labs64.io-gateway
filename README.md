@@ -3,6 +3,8 @@
 # Labs64.IO :: API Gateway
 ## A secure, high-performance entry point for managing and routing API traffic across Labs64.IO microservices
 
+![Docker Image Version](https://img.shields.io/docker/v/labs64/api-gateway?logo=docker&logoColor=%23E14817&color=%23E14817)
+
 Key responsibilities of the API Gateway:
 
 - Request Routing: Directs incoming HTTP/S requests to the appropriate backend service or RabbitMQ exchange/queue.
