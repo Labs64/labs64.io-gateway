@@ -10,6 +10,7 @@ name: Labs64.IO - API Gateway - CI
 
 permissions:
   contents: read
+  security-events: write
 
 on:
   push:
