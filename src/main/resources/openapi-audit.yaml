@@ -63,7 +63,7 @@ components:
           type: string
           format: date-time
           description: The precise time the audit event occurred, in ISO 8601 format.
-          example: "2023-10-27T10:00:00Z"
+          example: "2025-07-04T00:00:00Z"
         correlationId:
           type: string
           format: uuid
@@ -72,15 +72,15 @@ components:
         eventType:
           type: string
           description: A high-level classification of the event type, following a dotted notation (e.g., 'audit.action.performed').
-          example: "audit.action.performed"
+          example: "api.call"
         sourceSystem:
           type: string
           description: Identifies the system or service that generated the audit event.
-          example: "system-name/service-name"
+          example: "netlicensing/core"
         eventVersion:
           type: string
           description: The version of the audit event schema.
-          example: "1.0.0"
+          example: "0.0.1"
         eventId:
           type: string
           format: uuid
@@ -89,7 +89,7 @@ components:
         tenantId:
           type: string
           description: Identifier for the tenant or organization associated with the event.
-          example: "tenant-001"
+          example: "V12345678"
     ActionDetails:
       type: object
       required:
@@ -99,7 +99,7 @@ components:
         name:
           type: string
           description: The name of the specific action performed (e.g., 'LOGIN_SUCCESS', 'USER_CREATED', 'DATA_ACCESSED').
-          example: "LOGIN_SUCCESS"
+          example: "VALIDATE"
         status:
           type: string
           enum: [SUCCESS, FAILURE, PENDING]
@@ -108,7 +108,7 @@ components:
         message:
           type: string
           description: A human-readable message providing more context about the action's outcome.
-          example: "User logged in successfully"
+          example: "Validation completed successfully"
     Geolocation:
       type: object
       required:
@@ -147,5 +147,5 @@ components:
       additionalProperties:
         type: string
       example:
-        userId: "user123"
+        userId: "customer123"
         browser: "Chrome"
