@@ -1,17 +1,19 @@
-package io.labs64.apigateway.controller;
+package io.labs64.apigateway.controller.audit.v1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.labs64.audit.api.AuditEventPublisherApi;
-import io.labs64.audit.model.AuditEvent;
+import io.labs64.audit.v1.api.AuditEventPublisherApi;
+import io.labs64.audit.v1.model.AuditEvent;
 import io.labs64.apigateway.service.MessagePublisherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/api/v1")
 public class AuditEventPublisherController implements AuditEventPublisherApi {
 
     private static final Logger logger = LoggerFactory.getLogger(AuditEventPublisherController.class);

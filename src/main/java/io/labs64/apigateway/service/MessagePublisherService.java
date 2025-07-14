@@ -15,7 +15,7 @@ public class MessagePublisherService {
 
     private final StreamBridge streamBridge;
 
-    @Value("${app.default-broker}")
+    @Value("${application.default-broker}")
     private String defaultBroker;
 
     @Autowired
@@ -24,7 +24,7 @@ public class MessagePublisherService {
     }
 
     public boolean publishMessage(String message) {
-        logger.info("Publish message: '{}' to '{}'", message, defaultBroker + "-out-0");
+        logger.debug("Publish message: '{}' to '{}'", message, defaultBroker + "-out-0");
         return streamBridge.send(defaultBroker + "-out-0", MessageBuilder.withPayload(message).build());
     }
 
