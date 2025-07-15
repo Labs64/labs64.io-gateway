@@ -19,6 +19,7 @@
     <properties>
         <!-- API VERSIONS -->
         <audit.version>v1</audit.version>
+        <checkout.version>v1</checkout.version>
         <!-- DEPENDENCIES -->
         <java.version>21</java.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
@@ -27,6 +28,7 @@
         <openapitools.version>0.2.6</openapitools.version>
         <junit-jupiter.version.version>5.13.3</junit-jupiter.version.version>
         <jackson-datatype-jsr310.version>2.19.1</jackson-datatype-jsr310.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <opentelemetry-exporter-otlp.version>1.52.0</opentelemetry-exporter-otlp.version>
         <micrometer-tracing.version>1.5.2</micrometer-tracing.version>
         <!-- PLUGINS -->
@@ -86,6 +88,11 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-datatype-jsr310.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <!-- Spring Cloud SDK -->
@@ -180,7 +187,27 @@
                             <output>${project.build.directory}/generated-sources</output>
                             <apiPackage>io.labs64.audit.${audit.version}.api</apiPackage>
                             <modelPackage>io.labs64.audit.${audit.version}.model</modelPackage>
-                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateSupportingFiles>true</generateSupportingFiles>
+                            <configOptions>
+                                <useTags>true</useTags>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useSpringBoot3>true</useSpringBoot3>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>labs64.io-checkout</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/openapi-checkout-${checkout.version}.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <output>${project.build.directory}/generated-sources</output>
+                            <apiPackage>io.labs64.checkout.${checkout.version}.api</apiPackage>
+                            <modelPackage>io.labs64.checkout.${checkout.version}.model</modelPackage>
+                            <generateSupportingFiles>true</generateSupportingFiles>
                             <configOptions>
                                 <useTags>true</useTags>
                                 <interfaceOnly>true</interfaceOnly>

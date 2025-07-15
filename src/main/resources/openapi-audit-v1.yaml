@@ -11,6 +11,9 @@ paths:
     post:
       summary: Publish an audit event
       operationId: publishEvent
+      tags:
+        - AuditEvent
+      description: Publishes an audit event to a message broker for further processing.
       requestBody:
         required: true
         content:
@@ -30,12 +33,11 @@ paths:
             text/plain:
               schema:
                 type: string
-      tags:
-        - AuditEventPublisher
 components:
   schemas:
     AuditEvent:
       type: object
+      description: Represents an audit event.
       required:
         - meta
         - action
