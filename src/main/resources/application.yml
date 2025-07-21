@@ -15,23 +15,28 @@ logging:
     io.labs64: DEBUG
     org.springframework.cloud.stream: INFO
 
-application:
-  default-broker: rabbit
-
 spring:
   application:
     name: labs64.io-api-gateway
   cloud:
     stream:
       bindings:
-        rabbit-out-0:
+        audit-out-0:
           destination: labs64-audit-topic
+          binder: rabbit
+        shopping-cart-out-0:
+          destination:
           binder: rabbit
       rabbit:
         bindings:
-          rabbit-out-0:
+          audit-out-0:
             producer:
               exchangeType: topic
+          shopping-cart-out-0:
+            producer:
+              exchangeType: direct
+              routing-key: "checkout.cart.created"
+
   rabbitmq:
     host: rabbitmq.default.svc.cluster.local
     port: 5672

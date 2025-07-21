@@ -40,28 +40,51 @@ paths:
               totalAmount: 1250.00
       responses:
         '200':
-          description: Checkout initiation successful. Returns the redirect URL for the checkout app.
+          description: Shopping Cart published successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Failed to publish Shopping Cart
+          content:
+            text/plain:
+              schema:
+                type: string
+  /cart/{cartId}:
+    get:
+      summary: Retrieve a shopping cart by its ID
+      operationId: getCartById
+      tags:
+        - Checkout
+      description: Fetches the details of a specific shopping cart using its unique identifier.
+      parameters:
+        - name: cartId
+          in: path
+          description: Unique identifier of the shopping cart to retrieve.
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: "abcd1234-efgh-5678-ijkl-901234567890"
+      responses:
+        '200':
+          description: Shopping cart found and returned successfully.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  checkoutRedirectUrl:
-                    type: string
-                    format: uri
-                    description: URL to redirect the user to the generic checkout application. This URL will contain a sessionId (correlation ID) to link to the cart data sent to the message broker.
-                required:
-                  - checkoutRedirectUrl
-              example:
-                checkoutRedirectUrl: "https://my.netlicensing.io/checkout?sessionId=abcd1234-efgh-5678-ijkl-901234567890"
-        '400':
-          description: Invalid cart data provided (e.g., empty cart, invalid structure).
+                $ref: '#/components/schemas/ShoppingCart'
+        '404':
+          description: Shopping cart with the specified ID not found.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: "CART_NOT_FOUND"
+                message: "Shopping cart with ID 'abcd1234-efgh-5678-ijkl-901234567890' not found."
         '500':
-          description: Internal server error (e.g., failed to process cart, failed to publish message).
+          description: Internal server error (e.g., failed to retrieve cart data).
           content:
             application/json:
               schema:

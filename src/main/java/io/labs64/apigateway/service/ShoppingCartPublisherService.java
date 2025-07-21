@@ -7,38 +7,36 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MessagePublisherService {
+public class ShoppingCartPublisherService {
 
-    private static final Logger logger = LoggerFactory.getLogger(MessagePublisherService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShoppingCartPublisherService.class);
 
-    public static final String AUDIT_OUT_0 = "audit-out-0";
+    public static final String SHOPPING_CART_OUT_0 = "shopping-cart-out-0";
 
     private final StreamBridge streamBridge;
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public MessagePublisherService(StreamBridge streamBridge, ObjectMapper objectMapper) {
+    public ShoppingCartPublisherService(StreamBridge streamBridge, ObjectMapper objectMapper) {
         this.streamBridge = streamBridge;
         this.objectMapper = objectMapper;
     }
 
-    public boolean publishMessage(io.labs64.audit.v1.model.AuditEvent event) {
+    public boolean publishShoppingCart(io.labs64.checkout.v1.model.ShoppingCart cart) {
         String json;
         try {
-            json = objectMapper.writeValueAsString(event);
+            json = objectMapper.writeValueAsString(cart);
         } catch (JsonProcessingException e) {
             logger.error("Failed to convert Object to JSON! Error: {}", e.getMessage());
             return false;
         }
 
-        logger.debug("Publish Message '{}' to binding '{}'", json, AUDIT_OUT_0);
-        return streamBridge.send(AUDIT_OUT_0, MessageBuilder.withPayload(json).build());
+        logger.debug("Publish ShoppingCart '{}' to binding '{}'", json, SHOPPING_CART_OUT_0);
+        return streamBridge.send(SHOPPING_CART_OUT_0, MessageBuilder.withPayload(json).build());
     }
 
 }

@@ -1,7 +1,6 @@
 package io.labs64.apigateway.controller.checkout.v1;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.labs64.apigateway.service.ShoppingCartPublisherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import io.labs64.checkout.v1.api.CheckoutApi;
@@ -11,29 +10,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1")
 public class CheckoutController implements CheckoutApi {
 
     private static final Logger logger = LoggerFactory.getLogger(CheckoutController.class);
 
-    private final ObjectMapper objectMapper;
+    private final ShoppingCartPublisherService shoppingCartPublisherService;
 
-    public CheckoutController(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+    public CheckoutController(ShoppingCartPublisherService shoppingCartPublisherService) {
+        this.shoppingCartPublisherService = shoppingCartPublisherService;
     }
-    @Override
-    public ResponseEntity<io.labs64.checkout.v1.model.InitiateCheckout200Response> initiateCheckout(ShoppingCart cart) {
-        String cartJson;
-        try {
-            cartJson = objectMapper.writeValueAsString(cart);
-        } catch (JsonProcessingException e) {
-            logger.error("Failed to convert ShoppingCart to JSON! Error: {}", e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
 
-        logger.debug("Cart object received: {}", cartJson);
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    @Override
+    public ResponseEntity<String> initiateCheckout(ShoppingCart cart) {
+        boolean res = shoppingCartPublisherService.publishShoppingCart(cart);
+        if (res) {
+            return ResponseEntity.ok("Message sent successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send message");
+        }
+    }
+
+    @Override
+    public ResponseEntity<ShoppingCart> getCartById(UUID cartId) {
+        logger.debug("Received request to get cart by ID: {}", cartId);
+        return CheckoutApi.super.getCartById(cartId);
     }
 
 }
