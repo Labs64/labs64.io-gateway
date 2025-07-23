@@ -23,6 +23,7 @@
         <!-- DEPENDENCIES -->
         <java.version>21</java.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <spring-cloud-kubernetes-client-discovery.version>3.3.0</spring-cloud-kubernetes-client-discovery.version>
         <logstash.version>8.1</logstash.version>
         <springdoc.version>2.8.9</springdoc.version>
         <openapitools.version>0.2.6</openapitools.version>
@@ -56,12 +57,26 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- Spring Boot Web Starter -->
+        <!-- Spring Cloud Gateway -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-kubernetes-client-discovery</artifactId>
+            <version>${spring-cloud-kubernetes-client-discovery.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -71,38 +86,6 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
             <version>${logstash.version}</version>
-        </dependency>
-
-        <!-- OpenAPI -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>${openapitools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-datatype-jsr310.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-        </dependency>
-
-        <!-- Spring Cloud SDK -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-binder-kafka</artifactId>
         </dependency>
 
         <!-- Micrometer Tracing + OTEL bridge -->
@@ -169,72 +152,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${openapi-generator-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>labs64.io-audit</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi-audit-${audit.version}.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>io.labs64.audit.${audit.version}.api</apiPackage>
-                            <modelPackage>io.labs64.audit.${audit.version}.model</modelPackage>
-                            <generateSupportingFiles>true</generateSupportingFiles>
-                            <configOptions>
-                                <useTags>true</useTags>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>labs64.io-checkout</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/openapi-checkout-${checkout.version}.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>io.labs64.checkout.${checkout.version}.api</apiPackage>
-                            <modelPackage>io.labs64.checkout.${checkout.version}.model</modelPackage>
-                            <generateSupportingFiles>true</generateSupportingFiles>
-                            <configOptions>
-                                <useTags>true</useTags>
-                                <interfaceOnly>true</interfaceOnly>
-                                <useSpringBoot3>true</useSpringBoot3>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${build-helper-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

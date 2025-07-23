@@ -13,32 +13,34 @@ management:
 logging:
   level:
     io.labs64: DEBUG
-    org.springframework.cloud.stream: INFO
 
 spring:
   application:
     name: labs64.io-api-gateway
   cloud:
-    stream:
-      bindings:
-        audit-out-0:
-          destination: labs64-audit-topic
-          binder: rabbit
-        shopping-cart-out-0:
-          destination:
-          binder: rabbit
-      rabbit:
-        bindings:
-          audit-out-0:
-            producer:
-              exchangeType: topic
-          shopping-cart-out-0:
-            producer:
-              exchangeType: direct
-              routing-key: "checkout.cart.created"
-
-  rabbitmq:
-    host: rabbitmq.default.svc.cluster.local
-    port: 5672
-    username:
-    password:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes: []
+            #- id: auditflow_service_route
+            #  uri: lb://labs64io-auditflow
+            #  predicates:
+            #    - Path=/api/v1/audit/**
+            #- id: ecommerce_service_route
+            #  uri: lb://labs64io-ecommerce
+            #  predicates:
+            #    - Path=/api/v1/cart/**
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    urls: []
+      #- name: auditflow
+      #  url: http://labs64io-auditflow.localhost/v3/api-docs
+      #- name: ecommerce
+      #  url: http://labs64io-ecommerce.localhost/v3/api-docs
