@@ -66,11 +66,15 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
         </dependency>
-        <dependency>
+        <!-- dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-kubernetes-client-loadbalancer</artifactId>
+        </dependency -->
+        <!-- dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-kubernetes-client-discovery</artifactId>
             <version>${spring-cloud-kubernetes-client-discovery.version}</version>
-        </dependency>
+        </dependency -->
 
         <dependency>
             <groupId>org.springdoc</groupId>
