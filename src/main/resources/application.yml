@@ -18,6 +18,10 @@ logging:
 spring:
   application:
     name: labs64.io-api-gateway
+  data:
+    redis:
+      host: localhost
+      port: 6379
   cloud:
     gateway:
       server:
