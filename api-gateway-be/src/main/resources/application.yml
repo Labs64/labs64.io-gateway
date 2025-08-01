@@ -18,11 +18,6 @@ logging:
 spring:
   application:
     name: labs64.io-api-gateway
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://keycloak.tools.svc.cluster.local/realms/<realm-name>
   data:
     redis:
       host: localhost
