@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/Labs64/.github/refs/heads/master/assets/labs64-io-ecosystem.png"></p>
 
 # Labs64.IO :: API Gateway
-## A secure, high-performance entry point for managing and routing API traffic across Labs64.IO microservices
+## Unified API Gateway for Labs64.IO Microservices
 
 ![Docker Image Version](https://img.shields.io/docker/v/labs64/api-gateway?logo=docker&logoColor=%23E14817&color=%23E14817)
 

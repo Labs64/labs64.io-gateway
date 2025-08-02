@@ -1,0 +1,40 @@
+APP_NAME := "traefik-authproxy"
+
+LOCAL_KEYCLOAK := "http://keycloak.localhost"
+LOCAL_KEYCLOAK_DOCKER := "http://host.docker.internal:8080"
+LOCAL_CLIENT_ID := "audit-service-client"
+LOCAL_CLIENT_SECRET := "mTEqlt1dDzcVyEOzFjBZV4X8jvEkaQnc"
+
+# build application
+docker:
+    docker build -t {{APP_NAME}}:latest .
+    docker tag {{APP_NAME}}:latest localhost:5005/{{APP_NAME}}:latest
+    docker push localhost:5005/{{APP_NAME}}:latest
+    docker images | grep "{{APP_NAME}}"
+
+# run docker image
+run: docker
+    docker run -p 8081:8081 \
+      -e KEYCLOAK_DISCOVERY_URL="{{LOCAL_KEYCLOAK_DOCKER}}/realms/labs64io/.well-known/openid-configuration" \
+      -e KEYCLOAK_AUDIENCE="account" \
+      -e ROLE_MAPPING_FILE="/home/l64user/role_mapping.yaml" \
+      -v $(pwd)/sample_role_mapping.yaml:/home/l64user/role_mapping.yaml \
+      {{APP_NAME}}:latest
+
+# open documentation
+docu:
+    open "http://localhost:8081/redoc"
+    open "http://localhost:8081/docs"
+
+
+# open Keycloak well-known configuration
+test-show-wellknown:
+    open "{{LOCAL_KEYCLOAK}}/realms/labs64io/.well-known/openid-configuration"
+
+# generate JWT token
+test-generate-jwt-token:
+    curl --location --request POST '{{LOCAL_KEYCLOAK}}/realms/labs64io/protocol/openid-connect/token' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --data-urlencode 'grant_type=client_credentials' \
+    --data-urlencode 'client_id={{LOCAL_CLIENT_ID}}' \
+    --data-urlencode 'client_secret={{LOCAL_CLIENT_SECRET}}'

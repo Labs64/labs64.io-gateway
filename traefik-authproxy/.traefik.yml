@@ -1,0 +1,18 @@
+displayName: Traefik Auth (M2M) Middleware
+type: middleware
+#iconPath: .assets/icon.png
+
+import: github.com/Labs64/labs64.io-api-gateway/tree/master/traefik-authproxy
+
+summary: >
+  This repository contains a custom Traefik ForwardAuth middleware.
+  The middleware is designed to verify M2M (Machine-to-Machine) JWT tokens issued by Keycloak and
+  enforce path-based role-based access control (RBAC) for microservices deployed on Kubernetes.
+
+testData:
+  KEYCLOAK_DISCOVERY_URL: http://keycloak.tools.svc.cluster.local/realms/labs64io/.well-known/openid-configuration
+  KEYCLOAK_URL: http://keycloak.tools.svc.cluster.local
+  KEYCLOAK_REALM: labs64io
+  KEYCLOAK_AUDIENCE: account
+  ROLE_MAPPING_FILE: /opt/application-config/role_mapping.yaml
+  LOG_LEVEL: DEBUG

@@ -42,11 +42,11 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ./api-gateway-be
+          context: ./traefik-authproxy
           push: true
           platforms: linux/amd64,linux/arm64/v8
           tags: |
-            labs64/api-gateway:latest
-            labs64/api-gateway:${{ steps.get_release_tag.outputs.RELEASE_TAG }}
-          cache-from: type=gha,scope=${{ github.workflow }}
-          cache-to: type=gha,mode=max,scope=${{ github.workflow }}
+            labs64/traefik-authproxy:latest
+            labs64/traefik-authproxy:${{ steps.get_release_tag.outputs.RELEASE_TAG }}
+          cache-from: type=gha,scope=${{ github.workflow }}-traefik-authproxy
+          cache-to: type=gha,mode=max,scope=${{ github.workflow }}-traefik-authproxy
