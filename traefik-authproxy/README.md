@@ -24,10 +24,10 @@ It receives incoming requests from Traefik, validates the JWT token, extracts us
 
 The middleware is configured using environment variables.
 
-- `KEYCLOAK_URL`: The base URL of your Keycloak instance (e.g., http://keycloak.default.svc.cluster.local:8080).
-- `KEYCLOAK_REALM`: The name of the realm in Keycloak (e.g., labs64io).
-- `KEYCLOAK_AUDIENCE`: The audience claim to verify in the JWT (e.g., labs64io_client).
-- `KEYCLOAK_DISCOVERY_URL`: The URL to the Keycloak discovery endpoint (e.g., http://keycloak.default.svc.cluster.local:8080/realms/labs64io/.well-known/openid-configuration).
+- `OIDC_URL`: The base URL of your Keycloak instance (e.g., http://keycloak.default.svc.cluster.local:8080).
+- `OIDC_REALM`: The name of the realm in Keycloak (e.g., labs64io).
+- `OIDC_AUDIENCE`: The audience claim to verify in the JWT (e.g., labs64io_client).
+- `OIDC_DISCOVERY_URL`: The URL to the Keycloak discovery endpoint (e.g., http://keycloak.default.svc.cluster.local:8080/realms/labs64io/.well-known/openid-configuration).
 - `ROLE_MAPPING_FILE`: YAML file defining the path-to-role mapping. This can be passed as a ConfigMap in a production environment.
 
 ## Usage

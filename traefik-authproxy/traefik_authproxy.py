@@ -13,14 +13,14 @@ DISCOVERY_CACHE: Dict[str, Any] = {}
 JWKS_CACHE: Dict[str, Any] = {}
 
 # --- Configuration ---
-KEYCLOAK_URL = os.getenv("KEYCLOAK_URL", "http://keycloak.tools.svc.cluster.local")
-KEYCLOAK_REALM = os.getenv("KEYCLOAK_REALM", "default")
-KEYCLOAK_DISCOVERY_URL = os.getenv(
-    "KEYCLOAK_DISCOVERY_URL",
-    f"{KEYCLOAK_URL}/realms/{KEYCLOAK_REALM}/.well-known/openid-configuration"
+OIDC_URL = os.getenv("OIDC_URL", "http://keycloak.tools.svc.cluster.local")
+OIDC_REALM = os.getenv("OIDC_REALM", "default")
+OIDC_DISCOVERY_URL = os.getenv(
+    "OIDC_DISCOVERY_URL",
+    f"{OIDC_URL}/realms/{OIDC_REALM}/.well-known/openid-configuration"
 )
 
-KEYCLOAK_AUDIENCE = os.getenv("KEYCLOAK_AUDIENCE", "account")
+OIDC_AUDIENCE = os.getenv("OIDC_AUDIENCE", "account")
 ROLE_MAPPING_FILE = os.getenv("ROLE_MAPPING_FILE", "role_mapping.yaml")
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
@@ -77,8 +77,8 @@ def get_jwks() -> Dict[str, Any]:
 
     try:
         if "jwks_uri" not in DISCOVERY_CACHE:
-            app_logger.info(f"get_jwks::Fetching discovery doc from {KEYCLOAK_DISCOVERY_URL}")
-            resp = requests.get(KEYCLOAK_DISCOVERY_URL)
+            app_logger.info(f"get_jwks::Fetching discovery doc from {OIDC_DISCOVERY_URL}")
+            resp = requests.get(OIDC_DISCOVERY_URL)
             resp.raise_for_status()
             jwks_uri = resp.json().get("jwks_uri")
             if not jwks_uri:
@@ -107,7 +107,7 @@ def verify_token(token: str) -> Dict[str, Any]:
             token,
             get_jwks(),
             algorithms=["RS256"],
-            audience=KEYCLOAK_AUDIENCE
+            audience=OIDC_AUDIENCE
         )
         app_logger.debug(f"verify_token::Decoded payload: {payload}")
         return payload
@@ -128,7 +128,7 @@ def extract_token_roles(payload: Dict[str, Any]) -> List[str]:
     if isinstance(realm_roles, list):
         roles.update(realm_roles)
 
-    client_roles = payload.get("resource_access", {}).get(KEYCLOAK_AUDIENCE, {}).get("roles", [])
+    client_roles = payload.get("resource_access", {}).get(OIDC_AUDIENCE, {}).get("roles", [])
     if isinstance(client_roles, list):
         roles.update(client_roles)
 

@@ -1,7 +1,7 @@
 APP_NAME := "traefik-authproxy"
 
 LOCAL_KEYCLOAK := "http://keycloak.localhost"
-LOCAL_KEYCLOAK_DOCKER := "http://host.docker.internal:8080"
+LOCAL_OIDC_DOCKER := "http://host.docker.internal:8080"
 LOCAL_CLIENT_ID := "audit-service-client"
 LOCAL_CLIENT_SECRET := "mTEqlt1dDzcVyEOzFjBZV4X8jvEkaQnc"
 
@@ -15,8 +15,8 @@ docker:
 # run docker image
 run: docker
     docker run -p 8081:8081 \
-      -e KEYCLOAK_DISCOVERY_URL="{{LOCAL_KEYCLOAK_DOCKER}}/realms/labs64io/.well-known/openid-configuration" \
-      -e KEYCLOAK_AUDIENCE="account" \
+      -e OIDC_DISCOVERY_URL="{{LOCAL_OIDC_DOCKER}}/realms/labs64io/.well-known/openid-configuration" \
+      -e OIDC_AUDIENCE="account" \
       -e ROLE_MAPPING_FILE="/home/l64user/role_mapping.yaml" \
       -v $(pwd)/sample_role_mapping.yaml:/home/l64user/role_mapping.yaml \
       {{APP_NAME}}:latest
@@ -26,6 +26,14 @@ docu:
     open "http://localhost:8081/redoc"
     open "http://localhost:8081/docs"
 
+# check updates
+check-updates:
+    python3 -m venv temp_env
+    temp_env/bin/python3 -m pip install --upgrade pip
+    temp_env/bin/pip install -r requirements.txt
+    temp_env/bin/pip list --outdated
+    rm -rf temp_env
+    docker scout cves {{APP_NAME}}:latest
 
 # open Keycloak well-known configuration
 test-show-wellknown:

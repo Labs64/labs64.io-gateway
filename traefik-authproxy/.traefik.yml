@@ -10,9 +10,9 @@ summary: >
   enforce path-based role-based access control (RBAC) for microservices deployed on Kubernetes.
 
 testData:
-  KEYCLOAK_DISCOVERY_URL: http://keycloak.tools.svc.cluster.local/realms/labs64io/.well-known/openid-configuration
-  KEYCLOAK_URL: http://keycloak.tools.svc.cluster.local
-  KEYCLOAK_REALM: labs64io
-  KEYCLOAK_AUDIENCE: account
+  OIDC_DISCOVERY_URL: http://keycloak.tools.svc.cluster.local/realms/labs64io/.well-known/openid-configuration
+  OIDC_URL: http://keycloak.tools.svc.cluster.local
+  OIDC_REALM: labs64io
+  OIDC_AUDIENCE: account
   ROLE_MAPPING_FILE: /opt/application-config/role_mapping.yaml
   LOG_LEVEL: DEBUG
