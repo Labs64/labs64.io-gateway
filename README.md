@@ -4,6 +4,7 @@
 ## Unified API Gateway for Labs64.IO Microservices
 
 ![Docker Image Version](https://img.shields.io/docker/v/labs64/api-gateway?logo=docker&logoColor=%23E14817&color=%23E14817)
+[![📖 Documentation](https://img.shields.io/badge/📖-Documentation-AB6543.svg)](https://github.com/Labs64/labs64.io-docs)
 
 Key responsibilities of the API Gateway:
 
