@@ -2,7 +2,7 @@ displayName: Traefik Auth (M2M) Middleware
 type: middleware
 #iconPath: .assets/icon.png
 
-import: github.com/Labs64/labs64.io-api-gateway/tree/master/traefik-authproxy
+import: github.com/Labs64/labs64.io-gateway/traefik-authproxy
 
 summary: >
   This repository contains a custom Traefik ForwardAuth middleware.
@@ -15,4 +15,5 @@ testData:
   OIDC_REALM: labs64io
   OIDC_AUDIENCE: account
   ROLE_MAPPING_FILE: /opt/application-config/role_mapping.yaml
+  JWKS_CACHE_TTL: "3600"
   LOG_LEVEL: DEBUG

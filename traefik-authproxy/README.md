@@ -8,10 +8,15 @@ It receives incoming requests from Traefik, validates the JWT token, extracts us
 
 ## Features
 
-- JWT Verification: Validates tokens issued by Keycloak using public keys from the `.well-known` endpoint.
-- Role-Based Access Control (RBAC): Enforces access based on roles assigned to the user/client.
-- Configurable Role Mapping: Allows administrators to define a mapping of URL paths to required roles.
-- FastAPI Backend: A lightweight and performant backend for handling authentication logic.
+- **JWT Verification**: Validates tokens issued by Keycloak using public keys from the `.well-known` endpoint.
+- **Role-Based Access Control (RBAC)**: Enforces access based on roles assigned to the user/client.
+- **Configurable Role Mapping**: Allows administrators to define a mapping of URL paths to required roles.
+- **TTL-based JWKS Caching**: Automatically refreshes signing keys when Keycloak rotates them (configurable via `JWKS_CACHE_TTL`).
+- **Identity Forwarding**: On successful authentication, sets `X-Auth-User` and `X-Auth-Roles` response headers for Traefik to forward to upstream services.
+- **Correlation ID Propagation**: Propagates `X-Correlation-ID` headers for distributed tracing across the Labs64.IO ecosystem.
+- **Hot Reload**: Role mapping can be reloaded at runtime via the `POST /reload` endpoint without container restart.
+- **Health Check**: Provides a `/health` endpoint for Kubernetes liveness/readiness probes.
+- **FastAPI Backend**: A lightweight and performant backend for handling authentication logic.
 
 ## Prerequisites
 
@@ -20,15 +25,29 @@ It receives incoming requests from Traefik, validates the JWT token, extracts us
 - A configured Keycloak instance.
 - Docker for building the middleware container image.
 
+## Endpoints
+
+| Method       | Path      | Description                                                  |
+|-------------|-----------|--------------------------------------------------------------|
+| GET / POST  | `/auth`   | Main ForwardAuth endpoint — validates JWT and enforces RBAC. |
+| GET         | `/health` | Health check endpoint for Kubernetes probes.                 |
+| POST        | `/reload` | Reload role mapping from YAML file without restart.          |
+| GET         | `/docs`   | Interactive Swagger UI documentation.                        |
+| GET         | `/redoc`  | ReDoc API documentation.                                     |
+
 ## Configuration
 
 The middleware is configured using environment variables.
 
-- `OIDC_URL`: The base URL of your Keycloak instance (e.g., http://keycloak.default.svc.cluster.local:8080).
-- `OIDC_REALM`: The name of the realm in Keycloak (e.g., labs64io).
-- `OIDC_AUDIENCE`: The audience claim to verify in the JWT (e.g., labs64io_client).
-- `OIDC_DISCOVERY_URL`: The URL to the Keycloak discovery endpoint (e.g., http://keycloak.default.svc.cluster.local:8080/realms/labs64io/.well-known/openid-configuration).
-- `ROLE_MAPPING_FILE`: YAML file defining the path-to-role mapping. This can be passed as a ConfigMap in a production environment.
+| Variable             | Description                                                       | Default                                      |
+|---------------------|-------------------------------------------------------------------|----------------------------------------------|
+| `OIDC_URL`          | Base URL of the Keycloak instance.                                 | `http://keycloak.tools.svc.cluster.local`     |
+| `OIDC_REALM`        | Keycloak realm name.                                               | `default`                                     |
+| `OIDC_DISCOVERY_URL`| Full URL to the OIDC discovery endpoint.                           | `{OIDC_URL}/realms/{OIDC_REALM}/.well-known/openid-configuration` |
+| `OIDC_AUDIENCE`     | Audience claim to verify in the JWT.                               | `account`                                     |
+| `ROLE_MAPPING_FILE` | Path to the YAML file defining path-to-role mapping.               | `role_mapping.yaml`                           |
+| `JWKS_CACHE_TTL`    | JWKS cache TTL in seconds. Controls how quickly key rotation is picked up. | `3600` (1 hour)                        |
+| `LOG_LEVEL`         | Logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`).               | `INFO`                                        |
 
 ## Usage
 

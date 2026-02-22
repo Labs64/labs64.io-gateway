@@ -1,10 +1,13 @@
-# -- public paths
+# -- public paths (auth proxy internal endpoints)
 /auth: []
+/health: []
+/reload: []
+
+# -- public paths (downstream service endpoints)
 /public: []
 /docs: []
 /swagger-ui: []
 /v3/api-docs: []
-/health: []
 /actuator: []
 
 # -- protected paths

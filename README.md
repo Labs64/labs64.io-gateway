@@ -3,7 +3,7 @@
 # Labs64.IO :: API Gateway
 ## Unified API Gateway for Labs64.IO Microservices
 
-![Docker Image Version](https://img.shields.io/docker/v/labs64/api-gateway?logo=docker&logoColor=%23E14817&color=%23E14817)
+![Docker Image Version](https://img.shields.io/docker/v/labs64/gateway?logo=docker&logoColor=%23E14817&color=%23E14817)
 [![📖 Documentation](https://img.shields.io/badge/📖-Documentation-AB6543.svg)](https://github.com/Labs64/labs64.io-docs)
 
 Key responsibilities of the API Gateway:
@@ -19,4 +19,4 @@ Key responsibilities of the API Gateway:
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Labs64/labs64.io-api-gateway&type=Date)](https://www.star-history.com/#Labs64/labs64.io-api-gateway&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=Labs64/labs64.io-gateway&type=Date)](https://www.star-history.com/#Labs64/labs64.io-gateway&Date)

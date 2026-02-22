@@ -28,3 +28,19 @@ target/
 hs_err_pid*
 replay_pid*
 *.iml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.venv/
+venv/
+env/
+temp_env/
+*.egg-info/
+dist/
+build/
+.eggs/
+.DS_Store
+
