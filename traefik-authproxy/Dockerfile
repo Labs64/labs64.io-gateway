@@ -26,6 +26,10 @@ RUN python -m pip install --upgrade pip && \
 # Make port 8081 available outside this container
 EXPOSE 8081
 
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD wget -qO- http://localhost:8081/health || exit 1
+
 # Set user context
 USER ${USER_NAME}
 
