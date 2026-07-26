@@ -1,5 +1,15 @@
 FROM python:3.13-slim
 
+ARG GIT_REVISION=unknown
+
+LABEL org.opencontainers.image.title="Labs64.IO :: API Gateway" \
+      org.opencontainers.image.description="Traefik ForwardAuth proxy for the Labs64.IO Ecosystem" \
+      org.opencontainers.image.url="https://labs64.io" \
+      org.opencontainers.image.source="https://github.com/Labs64/labs64.io-authproxy" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      org.opencontainers.image.revision="${GIT_REVISION}" \
+      io.labs64.edition="ce"
+
 # Define build arguments
 ARG USER_ID=1064
 ARG GROUP_ID=1064
