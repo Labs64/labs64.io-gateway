@@ -11,3 +11,7 @@ static:
     prefix: /customer-portal-ui
     public: false
     scopes: [admin-role, default-roles-labs64io]
+  - id: auditflow-dlq
+    prefix: /auditflow/api/v1/actuator/dlq
+    public: false
+    scopes: [admin-role, auditflow-role]
