@@ -48,6 +48,7 @@ TOKEN_TENANT_CLAIM_PATH = os.getenv("TOKEN_TENANT_CLAIM_PATH", "tenant")
 # Central Cerbos PDP HTTP endpoint. The edge authorization decision is
 # delegated here — no in-process policy engine.
 CERBOS_URL = os.getenv("CERBOS_URL", "http://localhost:3592")
+CERBOS_TIMEOUT = float(os.getenv("CERBOS_TIMEOUT", "2.0"))
 # Directory of generated routes manifests (ConfigMap-mounted). One *.yaml per
 # module (version/module/basePath/routes) — the routing table source.
 ROUTES_DIR = os.getenv("ROUTES_DIR", "routes")
@@ -171,7 +172,7 @@ class ReloadResponse(BaseModel):
 
 # --- Policy Store + Cerbos edge PDP client ---
 STORE = PolicyStore()
-AUTHZ_ENGINE = CerbosEdgeEngine(CERBOS_URL)
+AUTHZ_ENGINE = CerbosEdgeEngine(CERBOS_URL, timeout_s=CERBOS_TIMEOUT)
 
 
 def _load_routes() -> None:

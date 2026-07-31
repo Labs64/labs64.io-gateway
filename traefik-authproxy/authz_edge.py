@@ -31,7 +31,7 @@ class EdgeDecision(NamedTuple):
 class CerbosEdgeEngine:
     """Thin client over the central Cerbos PDP."""
 
-    def __init__(self, base_url: str, timeout_s: float = 0.5) -> None:
+    def __init__(self, base_url: str, timeout_s: float = 2.0) -> None:
         self._base_url = base_url
         self._timeout = timeout_s
 
