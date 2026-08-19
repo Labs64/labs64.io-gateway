@@ -1,4 +1,4 @@
-name: Labs64.IO - API Gateway - Publish Docker
+name: Labs64.IO - Auth Gateway - Publish Docker
 
 on:
   release:
