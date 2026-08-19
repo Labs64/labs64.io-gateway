@@ -4,7 +4,8 @@
 
 ## Unified API Gateway for Labs64.IO Microservices
 
-![Docker Image Version](https://img.shields.io/docker/v/labs64/gateway?logo=docker&logoColor=%23E14817&color=%23E14817)
+[![Docker Image Version](https://img.shields.io/docker/v/labs64/traefik-authproxy?logo=docker&logoColor=%23E14817&color=%23E14817)](https://hub.docker.com/r/labs64/traefik-authproxy)
+[![Helm Chart](https://img.shields.io/badge/Helm%20Chart-api--gateway-0F1689?logo=helm)](https://artifacthub.io/packages/helm/labs64io-helm-charts/api-gateway)
 [![📖 Documentation](https://img.shields.io/badge/📖-Documentation-AB6543.svg)](https://github.com/Labs64/labs64.io-docs)
 
 Key responsibilities of the API Gateway stack (Traefik + gateway-common + traefik-authproxy):
